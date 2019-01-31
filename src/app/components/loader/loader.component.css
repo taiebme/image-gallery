@@ -1,0 +1,31 @@
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.loading-wrapper {
+  position: relative;
+}
+.loading {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner:before {
+  width: 40px;
+  height: 40px;
+}
+
+.loading-spinner:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 2px solid #212529;
+  border-top-color: #e9ecef;
+  animation: spinner 1s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+

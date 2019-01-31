@@ -1,0 +1,8 @@
+<div class="row album">
+  <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6"
+       *ngFor="let image of images">
+    <img
+      [src]="getImageUrl(image)"
+      class="zoom thumbnail" alt="">
+  </div>
+</div>
