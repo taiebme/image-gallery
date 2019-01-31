@@ -21,7 +21,8 @@ Now you can launch http://localhost:4200/ from your browser and register to **ch
 
 ### Exstras
 
-* The gallery contains infinite scroll support, more images will be shown when scrolling down.
+* The gallery contains infinite scroll support - more images will be shown when scrolling down.
+* Application was designed using Bootstrap 4.2.
 
 
 ## Author
