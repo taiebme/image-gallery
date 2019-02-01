@@ -11,7 +11,7 @@ Make sure that you have node.js, npm and angular-cli installed.
 After downloading and extracting or cloning the project follow these instructions:
 
   1. Under `image-gallery` folder run `npm install` command.
-  2. Make sure you have angular-cli globally installed and then run `ng serve` command.
+  2. Run `ng serve` command.
   
 Now angular application will run on `localhost:4200`.
 
