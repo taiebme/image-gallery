@@ -1,14 +1,14 @@
 # ImageGallery
+
 image gallery is an Angular application that allows you to search photos within flickr API.
 
 ### Prerequisites
 
-Make sure that you have Node and npm installed.
+Make sure that you have node.js, npm and angular-cli installed.
 
 ### Installing
 
 After downloading and extracting or cloning the project follow these instructions:
-
 
   1. Under `image-gallery` folder run `npm install` command.
   2. Make sure you have angular-cli globally installed and then run `ng serve` command.
@@ -16,7 +16,7 @@ After downloading and extracting or cloning the project follow these instruction
 Now angular application will run on `localhost:4200`.
 
 
-Now you can launch http://localhost:4200/ from your browser and register to **chat-room-app** 
+Now you can launch http://localhost:4200/ from your browser and start using image-gallery application.
 
 
 ### Exstras
@@ -28,4 +28,3 @@ Now you can launch http://localhost:4200/ from your browser and register to **ch
 ## Author
 
 * **Meny Taieb**
-
