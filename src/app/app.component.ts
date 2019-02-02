@@ -1,28 +1,29 @@
-import {Component, HostListener, OnChanges, SimpleChanges} from '@angular/core';
-import {Subject} from 'rxjs';
-import {FlickrService, IFlickrRes} from './services/flickr.service';
-import {TypeaheadMatch} from 'ngx-bootstrap';
-import {SearchHistoryService} from './services/search-history.service';
+import {Component, HostListener, OnDestroy} from '@angular/core';
+import {Subject, Subscription} from 'rxjs';
+import {FlickrService} from './services/flickr.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
 
-  public images: any;
+  // images array
+  public images: any[];
+  // search term subject - if change has been detected flickr API will be called
   public searchTerm$ = new Subject<string>();
+  // show loader indicator
   public showLoader = false;
-  public searchValue = [];
-  public historyValues: string[];
-  public showSaveMessage: boolean;
 
+  // last page of current search indicator
   private isLastPage: boolean;
+  // search subscription reference in order to unsubscribe on component destroy lifecycle hook
+  private searchSubscription: Subscription;
 
-  constructor(private flickrService: FlickrService,
-              private searchHistoryService: SearchHistoryService) {
-    flickrService.search(this.searchTerm$)
+  constructor(private flickrService: FlickrService) {
+    // subscription for flicker service search callback
+    this.searchSubscription = flickrService.search(this.searchTerm$)
       .subscribe(res => {
         this.images = res.photos;
         this.isLastPage = res.isLastPage;
@@ -30,47 +31,25 @@ export class AppComponent {
       });
   }
 
-  // handler for add query tag
-  onAdd($event: any): void {
-    this.searchHistoryService.addTerm($event.value);
-    this.historyValues = this.searchHistoryService.getHistoryList();
-    this.searchImages(this.getSearchQuery());
-  }
-
-  // handler for removed query tag
-  onRemove($event: string): void {
-    this.searchImages(this.getSearchQuery());
-  }
-
-  // call flickr service to search photos for the current query value
-  searchImages(searchQuery): void {
+  // call flickr service when search query changed
+  searchImages(searchQuery: string): void {
     this.images = [];
-    if (searchQuery) {
+    if (searchQuery && searchQuery.trim()) {
       this.showLoader = true;
       this.searchTerm$.next(searchQuery);
     }
   }
 
-  getSearchQuery(): string {
-    return this.searchValue.map((term) => {
-      return term.value;
-    }).join(' ');
-  }
 
-  // get photos on typing
-  onTextChange($event: string) {
-    if($event) {
-      this.searchImages(`${this.getSearchQuery()} ${$event}`)
-    }
-  }
   // listener for window scroll - trigger to load more photos
   @HostListener("window:scroll", ["$event"])
   onWindowScroll(): void {
-    if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    if (!this.showLoader && Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
       this.getNextPage();
     }
   }
 
+  // get next page for current search if available
   private getNextPage() {
     if(!this.isLastPage){
       this.showLoader = true;
@@ -83,19 +62,8 @@ export class AppComponent {
     }
   }
 
-
-
-  /*onKeyUp(term) {
-    if (term && term.length > 2) {
-      this.showLoader = true;
-      this.searchTerm = term;
-      this.searchTerm$.next(term);
-    }
-    if (!term) {
-      this.images = [];
-      this.searchTerm = '';
-    }
-  }*/
-
-
+  //
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
+  }
 }

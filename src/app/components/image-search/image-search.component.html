@@ -1,0 +1,19 @@
+<div class="form-row">
+  <div class="form-group col-md-6 offset-md-3">
+    <tag-input
+      (onTextChange)="onTextChangeHandler($event)"
+      (onRemove)="onRemoveHandler($event)"
+      (onAdd)="onAddHandler($event)"
+      [(ngModel)]="searchValue"
+      [secondaryPlaceholder]="'Search for images...'"
+      [placeholder]="'Search for images...'"
+      [allowDupes]="true"
+      theme='bootstrap'>
+      <tag-input-dropdown
+        [autocompleteItems]="historyValues"
+        [showDropdownIfEmpty]="true" >
+      </tag-input-dropdown>
+    </tag-input>
+    <p class="small">&ndash; Click Enter to save a word or entire query</p>
+  </div>
+</div>

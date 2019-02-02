@@ -28,4 +28,6 @@
   animation: spinner 1s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
 }
 
-
+.image-loader-wrapper {
+  height: 100px;
+}

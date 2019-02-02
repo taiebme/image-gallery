@@ -1,59 +1,17 @@
 <header>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container d-flex">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"
-             focusable="false" aria-hidden="true">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
-        </svg>
-        <strong>Image Gallery</strong>
-      </a>
-    </div>
-  </nav>
+  <app-nav-bar></app-nav-bar>
 </header>
 <div class="jumbotron">
   <div class="container">
     <h1 class="display-4">Image Gallery</h1>
     <p class="lead">This is a simple image gallery application that allows you to search photos within flickr API.</p>
     <hr class="my-4">
-
-    <div class="form-row">
-      <div class="form-group col-md-6 offset-md-3">
-        <!--<input class="form-control" type="search" placeholder="Search for images..."
-               (keyup)="onKeyUp($event.target.value)">-->
-
-        <!--<input [(ngModel)]="selectedValue"
-               [typeahead]="states"
-               typeaheadOptionField="name"
-               (typeaheadOnSelect)="onSelect($event)"
-               placeholder="Search for images..."
-               class="form-control">-->
-
-        <tag-input
-          (onTextChange)="onTextChange($event)"
-          (onRemove)="onRemove($event)"
-          (onAdd)="onAdd($event)"
-          [(ngModel)]="searchValue"
-          [secondaryPlaceholder]="'Search for images...'"
-          [placeholder]="'Search for images...'"
-          [allowDupes]="true"
-          theme='bootstrap'
-        >
-          <tag-input-dropdown [autocompleteItems]="historyValues" [showDropdownIfEmpty]="true" >
-          </tag-input-dropdown>
-        </tag-input>
-        <p class="small">&ndash; Click Enter to save a word or query</p>
-      </div>
-    </div>
+    <app-image-search (onTextChange)="searchImages($event)"></app-image-search>
   </div>
 </div>
 <div class="container">
-
   <app-gallery [images]="images"></app-gallery>
-  <div class="row image-loader-wrapper justify-content-center">
-    <app-loading [show]="showLoader"></app-loading>
-  </div>
+  <app-loading [show]="showLoader"></app-loading>
 </div>
+
 
