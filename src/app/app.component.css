@@ -2,3 +2,7 @@
   min-height: 100%;
 }
 
+
+.gallery-container {
+  position: relative;
+}

@@ -39,6 +39,9 @@ export class AppComponent implements OnDestroy {
       this.showLoader = true;
       this.searchTerm$.next(searchQuery);
     }
+    else{
+      this.showLoader = false;
+    }
   }
 
 

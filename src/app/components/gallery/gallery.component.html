@@ -3,6 +3,12 @@
        *ngFor="let image of images">
     <img
       [src]="getImageUrl(image)"
-      class="zoom thumbnail" alt="">
+      class="zoom thumbnail" alt="" (click)="showFullSizeImage(image, template)">
   </div>
 </div>
+
+
+<ng-template #template>
+  <img
+    [src]="fullSizeImageUrl" alt="">
+</ng-template>

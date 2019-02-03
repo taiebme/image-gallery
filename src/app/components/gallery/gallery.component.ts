@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, TemplateRef} from '@angular/core';
 import {FlickrService} from '../../services/flickr.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-gallery',
@@ -9,10 +10,22 @@ import {FlickrService} from '../../services/flickr.service';
 export class GalleryComponent {
 
   @Input() images: any[];
-  constructor(private flickrService: FlickrService) { }
+
+  public fullSizeImageUrl: string;
+
+  private modalRef: BsModalRef;
+
+  constructor(private flickrService: FlickrService,
+              private modalService: BsModalService) {
+  }
 
   // get image url source
   getImageUrl(image): string {
     return this.flickrService.getImageUrl(image);
+  }
+
+  showFullSizeImage(image:any ,template: TemplateRef<any>) {
+    this.fullSizeImageUrl = this.flickrService.getFullSizeUrl(image);
+    this.modalRef = this.modalService.show(template);
   }
 }

@@ -18,6 +18,7 @@ import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {ImageSearchComponent} from './components/image-search/image-search.component';
 import {AlertService} from './services/alert.service';
 import {AlertComponent} from './components/alert/alert.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {AlertComponent} from './components/alert/alert.component';
     FormsModule,
     TypeaheadModule.forRoot(),
     BrowserAnimationsModule,
-    TagInputModule
+    TagInputModule,
+    ModalModule.forRoot()
   ],
   providers: [
     FlickrService,

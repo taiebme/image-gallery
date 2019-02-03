@@ -1,0 +1,8 @@
+<div class="row alert-wrapper">
+  <div class="col-md-6 offset-md-3">
+    <div *ngIf="message"
+         [ngClass]="{ 'alert': message, 'alert-secondary': !message.error, 'alert-danger': message.error }">
+      {{message.text}}
+    </div>
+  </div>
+</div>

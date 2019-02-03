@@ -60,4 +60,8 @@ export class FlickrService {
   getImageUrl(image): string {
     return `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_m.jpg`;
   }
+
+  getFullSizeUrl(image): string {
+    return `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`;
+  }
 }

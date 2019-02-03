@@ -9,10 +9,10 @@
     <app-image-search (onTextChange)="searchImages($event)"></app-image-search>
   </div>
 </div>
-<div class="container">
-  <app-alert-message></app-alert-message>
+<div class="container gallery-container">
   <app-gallery [images]="images"></app-gallery>
-  <app-loading [show]="showLoader"></app-loading>
+  <app-loader [show]="showLoader"></app-loader>
+  <app-alert-message></app-alert-message>
 </div>
 
 

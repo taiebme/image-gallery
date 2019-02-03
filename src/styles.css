@@ -4,3 +4,8 @@
 .ng2-tags-container {
   background-color: white;
 }
+
+.modal-dialog {
+  max-width: fit-content;
+  height: auto;
+}

@@ -15,8 +15,10 @@ export class ImageSearchComponent implements OnInit {
   constructor(private searchHistoryService: SearchHistoryService) { }
 
   ngOnInit() {
+    this.historyValues = this.searchHistoryService.getHistoryList();
   }
 
+  // get search query either if it contains historical values or not
   getSearchQuery(): string {
     return this.searchValue.map((term) => {
       return term.value;
