@@ -8,16 +8,20 @@ import {FlickrRes} from '../models/flicker-response';
 @Injectable()
 export class FlickrService {
 
+  // holds number of available pages
   private pages: number;
+  // holds current page number for farther calls
   private currentPage: number;
   private term: string;
+  // get api url from environment configuration
   private baseUrl = `${environment.api}`;
-  private query = `?api_key=bac9f1ccfd854f27894fd47c4f01b1e8&method=flickr.photos.search&safe_search=1&
-    format=json&nojsoncallback=1&api_key=bac9f1ccfd854f27894fd47c4f01b1e8&content_type=1&is_getty=1&text=`;
+  // get api query parameters from environment configuration
+  private query = `${environment.apiQueryParams}`;
 
   constructor(private http: HttpClient) {
   }
 
+  // manipulate search photo calls in order to reduce number of API calls
   public search(terms: Observable<string>): Observable<FlickrRes> {
     return terms.pipe(
       debounceTime(600),
@@ -26,6 +30,7 @@ export class FlickrService {
     );
   }
 
+  // call flickr search photo API
   searchPhotos(term: string): Observable<FlickrRes> {
     return this.http
       .get(`${this.baseUrl}${this.query}${term}`)
@@ -42,6 +47,7 @@ export class FlickrService {
       )
   }
 
+  // get next page of current search query
   getNextPage(): Observable<FlickrRes> {
     if (this.currentPage < this.pages) {
       return this.http
@@ -57,10 +63,12 @@ export class FlickrService {
     }
   }
 
+  // get medium image size url
   getImageUrl(image): string {
     return `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_m.jpg`;
   }
 
+  // get large image size url
   getFullSizeUrl(image): string {
     return `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_b.jpg`;
   }
