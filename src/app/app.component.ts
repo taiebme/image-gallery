@@ -1,6 +1,8 @@
 import {Component, HostListener, OnDestroy} from '@angular/core';
 import {Subject, Subscription} from 'rxjs';
 import {FlickrService} from './services/flickr.service';
+import {AlertService} from './services/alert.service';
+import {FlickrRes} from './models/flicker-response';
 
 @Component({
   selector: 'app-root',
@@ -21,14 +23,13 @@ export class AppComponent implements OnDestroy {
   // search subscription reference in order to unsubscribe on component destroy lifecycle hook
   private searchSubscription: Subscription;
 
-  constructor(private flickrService: FlickrService) {
+  constructor(private flickrService: FlickrService,
+              private alertService: AlertService) {
     // subscription for flicker service search callback
     this.searchSubscription = flickrService.search(this.searchTerm$)
-      .subscribe(res => {
-        this.images = res.photos;
-        this.isLastPage = res.isLastPage;
-        this.showLoader = false;
-      });
+      .subscribe(
+        this.searchSuccess.bind(this),
+        this.onError.bind(this));
   }
 
   // call flickr service when search query changed
@@ -51,19 +52,40 @@ export class AppComponent implements OnDestroy {
 
   // get next page for current search if available
   private getNextPage() {
-    if(!this.isLastPage){
+    if (!this.isLastPage) {
       this.showLoader = true;
-      this.flickrService.getNextPage().subscribe(res => {
-          this.isLastPage = res.isLastPage;
-          this.images.push(...res.photos);
-          this.showLoader = false;
-        }
+      this.flickrService.getNextPage().subscribe(
+        this.nextPageSuccess.bind(this),
+        this.onError.bind(this)
       );
+    } else {
+      this.alertService.notify('No more images');
     }
   }
 
   //
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
+  }
+
+  private searchSuccess(res: FlickrRes): void {
+    this.images = res.photos;
+    this.isLastPage = res.isLastPage;
+    this.showLoader = false;
+    if (this.images && !this.images.length) {
+      this.alertService.notify('No images found');
+    }
+  }
+
+  private nextPageSuccess(res: any): void {
+    this.isLastPage = res.isLastPage;
+    this.images.push(...res.photos);
+    this.showLoader = false;
+  }
+
+  private onError(error: any): void {
+    console.log(error);
+    this.showLoader = false;
+    this.alertService.error('Something went wrong, please try again later...');
   }
 }

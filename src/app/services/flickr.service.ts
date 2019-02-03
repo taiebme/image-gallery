@@ -3,11 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-
-export interface IFlickrRes {
-  photos: any[],
-  isLastPage: boolean
-}
+import {FlickrRes} from '../models/flicker-response';
 
 @Injectable()
 export class FlickrService {
@@ -22,7 +18,7 @@ export class FlickrService {
   constructor(private http: HttpClient) {
   }
 
-  public search(terms: Observable<string>): Observable<IFlickrRes> {
+  public search(terms: Observable<string>): Observable<FlickrRes> {
     return terms.pipe(
       debounceTime(600),
       distinctUntilChanged(),
@@ -30,7 +26,7 @@ export class FlickrService {
     );
   }
 
-  searchPhotos(term: string): Observable<IFlickrRes> {
+  searchPhotos(term: string): Observable<FlickrRes> {
     return this.http
       .get(`${this.baseUrl}${this.query}${term}`)
       .pipe(
@@ -46,7 +42,7 @@ export class FlickrService {
       )
   }
 
-  getNextPage(): Observable<IFlickrRes> {
+  getNextPage(): Observable<FlickrRes> {
     if (this.currentPage < this.pages) {
       return this.http
         .get(`${this.baseUrl}${this.query}${this.term}&page=${++this.currentPage}`)
